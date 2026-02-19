@@ -27,6 +27,7 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
 .clearance-level { color: var(--warning-red); border: 1px solid var(--warning-red); padding: 2px 5px; }
 
 /* 資料リンク */
+.touch-list ul { list-style: none; }
 .touch-list li { margin: 15px 0; }
 .touch-list a {
     display: block; padding: 12px;
@@ -374,5 +375,6 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
     92% { transform: skewX(10deg); }
     95% { transform: skewX(-10deg); }
 }
+
 
 
