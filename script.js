@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    console.log("--- PROJECT ANIMAN-QUI: SECURE ARCHIVE LOADED ---");
+    console.log("--- GEKIDAN.zip IMMERSIVE PROJECT: SECURE ARCHIVE LOADED ---");
     console.log(">> STATUS: ALL NODES OPERATIONAL.");
 });
+
