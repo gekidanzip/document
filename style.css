@@ -253,12 +253,21 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
 }
 
 /* マップ画像（常時スキャンライン） */
+/* --- 修正：マップ画像のエフェクト解除（視認性優先） --- */
+
 .map-image {
-    filter: grayscale(100%) sepia(100%) hue-rotate(80deg) brightness(0.9) contrast(1.2);
-    /* 画像の上に薄い走査線を乗せる */
-    mask-image: linear-gradient(transparent 50%, rgba(0, 0, 0, 1) 50%);
-    mask-size: 100% 4px;
-    opacity: 0.8;
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    /* エフェクトをすべてリセット */
+    filter: none !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    background: transparent !important;
+    opacity: 1 !important;
+    /* 画像の粗さを抑えてクッキリ表示 */
+    image-rendering: auto;
 }
 
 /* 切り替え時の「激しいグリッチノイズ」演出 */
@@ -363,3 +372,4 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
     92% { transform: skewX(10deg); }
     95% { transform: skewX(-10deg); }
 }
+
