@@ -240,16 +240,20 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
 /* モニターの四隅の装飾（疑似要素で追加） */
 /* --- 修正：どんなサイズでも枠に収める設定 --- */
 
+/* --- 修正：マップの縦配置と画像サイズ最適化 --- */
+
 /* マップ表示エリア（モニター枠） */
 .map-wrapper {
     position: relative;
     border: 2px solid var(--terminal-green);
     background: #000;
     overflow: hidden;
-    /* 枠のサイズを固定、または最大値を設定 */
     width: 100%;
-    height: 400px; /* ここでお好みの「モニターの高さ」を固定します */
+    height: 420px; /* 注釈の分、少し高さを確保 */
+    
+    /* 縦並びに固定 */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
@@ -257,20 +261,33 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
 
 /* マップ画像本体 */
 .map-image {
-    /* 枠の中で最大化しつつ、比率を維持して収める（重要！） */
     width: 100%;
-    height: 100%;
-    object-fit: contain; /* これで画像が歪まず、枠内に収まります */
+    height: 85%; /* 画像が注釈を押し出さないよう高さを制限 */
+    object-fit: contain; /* どんな比率の画像も枠内に収める */
     
-    /* 前回の修正通りエフェクトは全解除 */
     filter: none !important;
     opacity: 1 !important;
-    display: none; /* JSで制御するため初期は非表示 */
+    display: none; /* 初期は非表示 */
+    margin-bottom: 5px; /* 下の注釈との距離 */
 }
 
 /* アクティブな画像のみ表示 */
 .map-image.active {
     display: block;
+}
+
+/* 注釈テキスト（※）を画像の下に配置 */
+.map-overlay-text {
+    width: 100%;
+    text-align: center;
+    color: var(--terminal-green);
+    font-size: 0.75em;
+    font-weight: bold;
+    padding-bottom: 10px;
+    text-shadow: 0 0 5px var(--terminal-green);
+    /* 念のため最前面へ */
+    position: relative;
+    z-index: 5;
 }
 
 /* 切り替え時の「激しいグリッチノイズ」演出 */
@@ -375,6 +392,7 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
     92% { transform: skewX(10deg); }
     95% { transform: skewX(-10deg); }
 }
+
 
 
 
