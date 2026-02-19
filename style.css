@@ -1,8 +1,9 @@
 :root {
-    --bg-dark: #0a0a0a;
+    --bg-dark: #0f0f0f; /* 少しだけ明るくして視認性を確保 */
     --terminal-green: #00ff41;
     --neon-glow: rgba(0, 255, 65, 0.4);
     --warning-red: #ff3e3e;
+    --pure-white: #ffffff;
 }
 
 body {
@@ -10,11 +11,11 @@ body {
     color: var(--terminal-green);
     font-family: 'Courier New', Courier, monospace;
     margin: 0; padding: 10px;
-    -webkit-tap-highlight-color: transparent; /* スマホの青枠消し */
+    -webkit-tap-highlight-color: transparent;
 }
 
 .container {
-    max-width: 600px; /* スマホで見やすい幅 */
+    max-width: 600px;
     margin: 0 auto;
     border: 1px solid var(--terminal-green);
     padding: 15px;
@@ -22,74 +23,145 @@ body {
 }
 
 header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; margin-bottom: 20px; }
-
-.status-bar { display: flex; justify-content: space-between; font-size: 0.7em; margin-bottom: 5px; }
-
+.status-bar { display: flex; justify-content: space-between; font-size: 0.7em; }
 .clearance-level { color: var(--warning-red); border: 1px solid var(--warning-red); padding: 2px 5px; }
 
-/* スマホ用の大きなタッチターゲット */
+/* 資料リンク */
 .touch-list li { margin: 15px 0; }
 .touch-list a {
-    display: block;
-    padding: 10px;
-    border: 1px solid var(--dim-green);
+    display: block; padding: 12px;
+    border: 1px solid var(--terminal-green);
     color: var(--terminal-green);
     text-decoration: none;
     background: rgba(0,255,65,0.05);
 }
 
-/* 黒塗りギミック：ここが重要 */
+/* 黒塗り：脈動を少し控えめにし、文字を読みやすく */
 .redacted {
     display: inline-block;
     background-color: #000;
     color: transparent;
     cursor: pointer;
-    padding: 2px 10px;
+    padding: 4px 12px;
     margin: 5px 0;
     position: relative;
-    border: 1px solid var(--terminal-green); /* 常に枠を見せる */
-    box-shadow: 0 0 5px var(--neon-glow);
-    animation: pulse-border 2s infinite; /* 脈動させる */
+    border: 1px solid var(--terminal-green);
     font-weight: bold;
-    min-width: 100px;
+    min-width: 120px;
     text-align: center;
 }
 
-@keyframes pulse-border {
-    0% { box-shadow: 0 0 2px var(--neon-glow); border-color: rgba(0,255,65,0.5); }
-    50% { box-shadow: 0 0 10px var(--neon-glow); border-color: var(--terminal-green); }
-    100% { box-shadow: 0 0 2px var(--neon-glow); border-color: rgba(0,255,65,0.5); }
-}
-
-/* 解読前の文字を浮かび上がらせる */
 .redacted::after {
     content: attr(data-text);
     position: absolute;
     left: 50%; top: 50%;
     transform: translate(-50%, -50%);
     color: var(--terminal-green);
-    font-size: 0.6em;
-    opacity: 0.7;
+    font-size: 0.7em;
 }
 
-/* 解除後 */
 .redacted.active {
     background-color: rgba(0,255,65,0.1);
     color: var(--terminal-green);
-    animation: none;
     border: 1px solid var(--terminal-green);
-    padding: 2px 5px;
 }
 .redacted.active::after { content: ""; }
 
-.dossier { border: 1px solid var(--terminal-green); margin: 20px 0; padding: 10px; position: relative; }
+/* --- 修正：キャラクター名表示とギミック --- */
+
+/* 彩葉（最初は吉武更紗）の表示設定 */
+.identity-reveal {
+    cursor: pointer;
+    position: relative;
+    padding-right: 25px; 
+    display: inline-block;
+    color: #ffffff; /* 視認性のための白 */
+    font-weight: bold;
+    /* 常時振動と色ノイズを適用（0.1s~0.2sの超高速ループ） */
+    animation: permanent-vibration 0.15s infinite, permanent-color-noise 0.1s infinite;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* 右側で激しく点滅する警告灯 */
+.unstable-indicator {
+    position: absolute;
+    right: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 10px; height: 10px;
+    background-color: #ff3e3e;
+    border-radius: 50%;
+    animation: blink-warning-fast 0.3s infinite;
+}
+
+/* タップ後の「上書き中」状態 */
+.identity-reveal.processing {
+    color: #ff3e3e;
+    animation: destructive-processing 0.7s steps(3) infinite !important;
+}
+
+/* 最終的な正体（彩葉）の状態 */
+.identity-reveal.revealed {
+    color: #ff3e3e;
+    text-shadow: 0 0 15px #ff3e3e;
+    animation: final-impact 0.4s ease-out forwards;
+}
+
+.identity-reveal.revealed .unstable-indicator {
+    display: none;
+}
+
+.dossier { border: 1px solid var(--terminal-green); margin: 20px 0; padding: 10px; }
 .dossier-header { background: var(--terminal-green); color: #000; padding: 2px 10px; font-weight: bold; margin-bottom: 10px; }
+.dossier-content p { margin: 8px 0; font-size: 0.95em; }
 .status-dead { color: var(--warning-red); font-weight: bold; }
 
 /* 走査線 */
 .scanline {
-    width: 100%; height: 2px; background: rgba(0,255,65,0.1);
-    position: fixed; top: 0; left: 0; z-index: 100;
-    animation: scan 4s linear infinite; pointer-events: none;
+    width: 100%; height: 100vh;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    position: fixed; top: 0; left: 0; z-index: 100; pointer-events: none;
 }
-@keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+
+/* --- 追加：激しい常時グリッチ演出 --- */
+
+/* 常に高速で振動（震え） */
+@keyframes permanent-vibration {
+    0% { transform: translate(0, 0); }
+    10% { transform: translate(-1px, 1px); }
+    20% { transform: translate(1px, -1px); }
+    30% { transform: translate(-1px, -1px); }
+    40% { transform: translate(1px, 1px); }
+    50% { transform: translate(-1px, 1px); }
+    60% { transform: translate(1px, -1px); }
+    70% { transform: translate(-1px, -1px); }
+    80% { transform: translate(1px, 1px); }
+    90% { transform: translate(-1px, 1px); }
+    100% { transform: translate(0, 0); }
+}
+
+/* 絶え間ない色の分離（赤・青） */
+@keyframes permanent-color-noise {
+    0%, 100% { text-shadow: 1px 0 #ff3e3e, -1px 0 #0000ff; }
+    33% { text-shadow: -2px 0 #ff3e3e, 1px 0 #0000ff; }
+    66% { text-shadow: 1px 0 #ff3e3e, 2px 0 #0000ff; }
+}
+
+/* 点滅する赤い警告灯の加速 */
+@keyframes blink-warning-fast {
+    0%, 100% { opacity: 1; filter: brightness(1.8); box-shadow: 0 0 10px #ff3e3e; }
+    50% { opacity: 0.1; filter: brightness(1); }
+}
+
+/* タップ後の破壊的演出（処理中） */
+@keyframes destructive-processing {
+    0% { transform: scale(1.3) skewX(20deg); filter: invert(0) blur(1px); }
+    50% { transform: scale(0.7) skewX(-20deg); filter: invert(1) blur(2px); }
+    100% { transform: scale(1) skewX(0); }
+}
+
+/* 正体判明時のインパクト */
+@keyframes final-impact {
+    0% { transform: scale(3); opacity: 0; filter: contrast(3); }
+    100% { transform: scale(1); opacity: 1; }
+}

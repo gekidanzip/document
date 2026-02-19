@@ -1,28 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // アクセス時刻のリアルタイム表示
+    // 1. システム時刻の表示
     const updateTime = () => {
-        const now = new Date();
-        document.getElementById('access-date').textContent = now.toLocaleString();
+        const el = document.getElementById('access-date');
+        if (el) el.textContent = new Date().toLocaleString('ja-JP');
     };
     setInterval(updateTime, 1000);
     updateTime();
 
-    // 解読（黒塗り解除）の処理
+    // 2. 黒塗り解除 (Redacted)
     const redactedItems = document.querySelectorAll('.redacted');
-    
     redactedItems.forEach(item => {
         item.addEventListener('click', function() {
             if (this.classList.contains('active')) return;
-
-            // タップ音の代わりの演出：一瞬テキストを変える
-            const originalText = this.getAttribute('data-text');
             this.setAttribute('data-text', "DECRYPTING...");
-            
             setTimeout(() => {
                 this.classList.add('active');
-                // 完了後に少し「ノイズ」が入ったようなコンソールログを出す
-                console.log(">> CRITICAL DATA RESTORED.");
-            }, 600); // 0.6秒の「タメ」を作る
+            }, 600);
         });
     });
+
+    // 3. 正体判明ギミック (吉武更紗 -> 髙寄彩葉)
+    const identitySpans = document.querySelectorAll('.identity-reveal');
+    identitySpans.forEach(span => {
+        span.addEventListener('click', function() {
+            if (this.classList.contains('revealed') || this.classList.contains('processing')) return;
+
+            const trueName = this.getAttribute('data-true-name');
+            this.classList.add('processing');
+            
+            // 0.8秒間バグらせた後に名前を確定させる
+            setTimeout(() => {
+                this.classList.remove('processing');
+                this.textContent = trueName;
+                this.classList.add('revealed');
+            }, 800);
+        });
+    });
+
+    console.log("--- SECURE SYSTEM RECOVERY COMPLETE ---");
 });
