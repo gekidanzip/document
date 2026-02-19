@@ -1,0 +1,95 @@
+:root {
+    --bg-dark: #0a0a0a;
+    --terminal-green: #00ff41;
+    --neon-glow: rgba(0, 255, 65, 0.4);
+    --warning-red: #ff3e3e;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--terminal-green);
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0; padding: 10px;
+    -webkit-tap-highlight-color: transparent; /* スマホの青枠消し */
+}
+
+.container {
+    max-width: 600px; /* スマホで見やすい幅 */
+    margin: 0 auto;
+    border: 1px solid var(--terminal-green);
+    padding: 15px;
+    box-shadow: inset 0 0 10px rgba(0,255,65,0.1);
+}
+
+header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; margin-bottom: 20px; }
+
+.status-bar { display: flex; justify-content: space-between; font-size: 0.7em; margin-bottom: 5px; }
+
+.clearance-level { color: var(--warning-red); border: 1px solid var(--warning-red); padding: 2px 5px; }
+
+/* スマホ用の大きなタッチターゲット */
+.touch-list li { margin: 15px 0; }
+.touch-list a {
+    display: block;
+    padding: 10px;
+    border: 1px solid var(--dim-green);
+    color: var(--terminal-green);
+    text-decoration: none;
+    background: rgba(0,255,65,0.05);
+}
+
+/* 黒塗りギミック：ここが重要 */
+.redacted {
+    display: inline-block;
+    background-color: #000;
+    color: transparent;
+    cursor: pointer;
+    padding: 2px 10px;
+    margin: 5px 0;
+    position: relative;
+    border: 1px solid var(--terminal-green); /* 常に枠を見せる */
+    box-shadow: 0 0 5px var(--neon-glow);
+    animation: pulse-border 2s infinite; /* 脈動させる */
+    font-weight: bold;
+    min-width: 100px;
+    text-align: center;
+}
+
+@keyframes pulse-border {
+    0% { box-shadow: 0 0 2px var(--neon-glow); border-color: rgba(0,255,65,0.5); }
+    50% { box-shadow: 0 0 10px var(--neon-glow); border-color: var(--terminal-green); }
+    100% { box-shadow: 0 0 2px var(--neon-glow); border-color: rgba(0,255,65,0.5); }
+}
+
+/* 解読前の文字を浮かび上がらせる */
+.redacted::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--terminal-green);
+    font-size: 0.6em;
+    opacity: 0.7;
+}
+
+/* 解除後 */
+.redacted.active {
+    background-color: rgba(0,255,65,0.1);
+    color: var(--terminal-green);
+    animation: none;
+    border: 1px solid var(--terminal-green);
+    padding: 2px 5px;
+}
+.redacted.active::after { content: ""; }
+
+.dossier { border: 1px solid var(--terminal-green); margin: 20px 0; padding: 10px; position: relative; }
+.dossier-header { background: var(--terminal-green); color: #000; padding: 2px 10px; font-weight: bold; margin-bottom: 10px; }
+.status-dead { color: var(--warning-red); font-weight: bold; }
+
+/* 走査線 */
+.scanline {
+    width: 100%; height: 2px; background: rgba(0,255,65,0.1);
+    position: fixed; top: 0; left: 0; z-index: 100;
+    animation: scan 4s linear infinite; pointer-events: none;
+}
+@keyframes scan { 0% { top: 0; } 100% { top: 100%; } }

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECRET | PROJECT ANIMAN-QUI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="scanline"></div>
+    <div class="container">
+        <header>
+            <div class="status-bar">
+                <span class="clearance-level">LEVEL 6 AUTHENTICATED</span>
+                <span id="access-date"></span>
+            </div>
+            <h1>劇団.zip　「アパートを掃除してくれませんか？」　設定資料集</h1>
+            <p class="doc-id">DOC_ID: G-ZIP_PRJ_2026</p>
+        </header>
+
+        <section id="map-section">
+            <h2>01. 居住エリア・空間インデックス</h2>
+            <div class="map-wrapper">
+                <img src="map.jpg" alt="MAP LOADING ERROR" class="map-image">
+                <div class="map-overlay-text">※エリアをタップして資料を特定</div>
+            </div>
+        </section>
+
+        <section id="archive-section">
+            <h2>02. 資料アーカイブ</h2>
+            <div class="archive-grid">
+                <div class="archive-category">
+                    <h3>■ 掲示・ポスター</h3>
+                    <ul class="touch-list">
+                        <li><a href="#">ポスター #01</a></li>
+                        <li><a href="#">ポスター #02</a></li>
+                        <li><a href="#">ポスター #03</a></li>
+                    </ul>
+                </div>
+                <div class="archive-category">
+                    <h3>■ 内部報告書</h3>
+                    <ul class="touch-list">
+                        <li><a href="#">資料 #01</a></li>
+                        <li><a href="#">資料 #02</a></li>
+                        <li><a href="#">資料 #03</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="character-section">
+            <h2>03. 対象者プロファイル</h2>
+            
+            <article class="dossier">
+                <div class="dossier-header">氏名：髙寄 一二三 (タカヨセ ヒフミ)</div>
+                <div class="dossier-content">
+                    [cite_start]<p><strong>識別番号:</strong> サンプル 21-001 [cite: 158]</p>
+                    [cite_start]<p><strong>生存ステータス:</strong> <span class="status-dead">FALSE (死亡)</span> [cite: 158]</p>
+                    <p class="description">
+                        [cite_start]第四回適合者実験(2024/09/12)対象 [cite: 162, 163][cite_start]。実験中に親族への過剰な執着を見せ、御神体に対し強い拒絶反応を示した [cite: 170][cite_start]。これにより精神障壁が暴走し、周辺サンプルにも甚大な被害を及ぼした [cite: 170]。
+                    </p>
+                </div>
+            </article>
+
+            <article class="dossier highlight-box">
+                <div class="dossier-header">氏名：髙寄 彩葉 (タカヨセ イロハ)</div>
+                <div class="dossier-content">
+                    <p><strong>解読ステータス:</strong> <span class="redacted" data-text="[TAP TO DECRYPT]">ENC_DATA_01</span></p>
+                    <p><strong>備考:</strong> <span class="redacted" data-text="[RESTRICTED]">（設定を入力してください）</span></p>
+                </div>
+            </article>
+
+            <article class="dossier highlight-box">
+                <div class="dossier-header">氏名：小山 (オヤマ)</div>
+                <div class="dossier-content">
+                    <p><strong>立場:</strong> アパート大家</p>
+                    <p><strong>備考:</strong> <span class="redacted" data-text="[DECRYPT DATA]">（設定を入力してください）</span></p>
+                </div>
+            </article>
+        </section>
+
+        <footer>
+            <div class="signatures">
+                <p>ADMIN: 関口 / 井上</p>
+                <p>ARCHIVIST: 深山(美) / 深山(咲)</p>
+            </div>
+            <p class="copyright">© 劇団zip | ANIMAN-QUI PROJECT</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
