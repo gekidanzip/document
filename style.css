@@ -167,51 +167,132 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
 
 }
 
-/* --- 追加：マップセレクターとノイズ演出 --- */
+/* --- 追加・修正：サイバー風マップセレクターとノイズ演出 --- */
 
-/* ボタンの並び */
+/* ボタンの並びエリア */
 .map-selector {
     display: flex;
     justify-content: space-between;
-    gap: 5px;
-    margin-bottom: 10px;
+    gap: 10px; /* 間隔を少し広げる */
+    margin-bottom: 15px;
+    padding: 5px;
+    background: rgba(0, 255, 65, 0.05); /* 薄い背景色を追加 */
+    border: 1px solid var(--terminal-green);
+    box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.1);
 }
 
-/* 監視カメラ風のボタン */
+/* 監視カメラ風ボタン（サイバー仕様） */
 .map-btn {
     flex: 1;
-    background: transparent;
-    border: 1px solid var(--terminal-green);
+    background: #000; /* 背景を黒に */
+    border: 1px solid rgba(0, 255, 65, 0.3);
     color: var(--terminal-green);
-    font-family: inherit;
-    font-size: 0.7em;
-    padding: 8px 0;
+    font-family: 'Courier New', Courier, monospace; /* フォントを明示 */
+    font-size: 0.75em;
+    padding: 10px 0;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    text-shadow: 0 0 2px var(--terminal-green); /* 文字を発光させる */
 }
 
+/* ボタンのホバー効果（ノイズが走る） */
+.map-btn:hover {
+    background: rgba(0, 255, 65, 0.1);
+    border-color: var(--terminal-green);
+    box-shadow: 0 0 5px var(--neon-glow);
+}
+.map-btn:hover::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.5), transparent);
+    animation: scan-btn 1s linear infinite;
+}
+@keyframes scan-btn { 0% { left: -100%; } 100% { left: 100%; } }
+
+/* アクティブなボタン（強く発光） */
 .map-btn.active {
-    background: var(--terminal-green);
-    color: var(--bg-dark);
+    background: rgba(0, 255, 65, 0.2);
+    border: 1px solid var(--terminal-green);
+    color: #000;
     font-weight: bold;
-    box-shadow: 0 0 10px var(--neon-glow);
+    box-shadow: inset 0 0 15px var(--neon-glow), 0 0 10px var(--neon-glow);
+    text-shadow: none; /* 背景が明るいので文字の影は消す */
+}
+/* アクティブボタンの文字色を強制的に黒系にするための調整 */
+.map-btn.active { color: #0f0f0f; background: var(--terminal-green); }
+
+
+/* マップ表示エリア（モニター枠風） */
+.map-wrapper {
+    position: relative;
+    border: 2px solid var(--terminal-green); /* 枠線を太く */
+    padding: 5px;
+    min-height: 300px;
+    background: #000;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+    overflow: hidden;
 }
 
-/* 切り替え時の「信号途絶」ノイズ */
+/* モニターの四隅の装飾（疑似要素で追加） */
+.map-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    background: 
+        linear-gradient(to right, var(--terminal-green) 2px, transparent 2px) 0 0,
+        linear-gradient(to bottom, var(--terminal-green) 2px, transparent 2px) 0 0,
+        linear-gradient(to left, var(--terminal-green) 2px, transparent 2px) 100% 100%,
+        linear-gradient(to top, var(--terminal-green) 2px, transparent 2px) 100% 100%;
+    background-size: 10px 10px; /* 四隅だけＬ字を描く */
+    background-repeat: no-repeat;
+    z-index: 10;
+}
+
+/* マップ画像（常時スキャンライン） */
+.map-image {
+    filter: grayscale(100%) sepia(100%) hue-rotate(80deg) brightness(0.9) contrast(1.2);
+    /* 画像の上に薄い走査線を乗せる */
+    mask-image: linear-gradient(transparent 50%, rgba(0, 0, 0, 1) 50%);
+    mask-size: 100% 4px;
+    opacity: 0.8;
+}
+
+/* 切り替え時の「激しいグリッチノイズ」演出 */
 .map-wrapper.switching::after {
-    content: "SIGNAL LOST / RECONNECTING...";
+    content: "SYSTEM BREACH // RE-CALIBRATING..."; /* 文言変更 */
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     background: #000;
-    color: var(--terminal-green);
+    color: var(--warning-red); /* 警告色に変更 */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8em;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 0.9em;
     z-index: 50;
-    animation: flicker-noise 0.1s infinite;
+    /* 激しいノイズアニメーションを適用 */
+    animation: cyber-glitch 0.1s infinite, rgb-shift 0.2s infinite;
+    text-shadow: 2px 0 var(--terminal-green), -2px 0 blue;
 }
 
-@keyframes flicker-noise {
-    0% { opacity: 0.7; }
-    100% { opacity: 1; }
+/* 画面全体の激しい明滅と歪み */
+@keyframes cyber-glitch {
+    0% { opacity: 0.8; transform: skewX(0deg); background: #000; }
+    20% { opacity: 1; transform: skewX(-5deg); background: #110; }
+    40% { opacity: 0.7; transform: skewX(5deg); background: #000; clip-path: inset(10% 0 20% 0); }
+    60% { opacity: 1; transform: skewX(-2deg); background: #000; clip-path: inset(0 0 0 0); }
+    80% { opacity: 0.9; transform: skewX(2deg); background: #0a0a0a; }
+    100% { opacity: 0.8; transform: skewX(0deg); background: #000; }
+}
+
+/* RGBの色ズレ演出 */
+@keyframes rgb-shift {
+    0% { text-shadow: 2px 0 var(--terminal-green), -2px 0 blue; }
+    50% { text-shadow: -2px 0 var(--warning-red), 2px 0 var(--terminal-green); }
+    100% { text-shadow: 2px 0 blue, -2px 0 var(--warning-red); }
 }
