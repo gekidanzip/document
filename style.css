@@ -237,37 +237,39 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
 }
 
 /* モニターの四隅の装飾（疑似要素で追加） */
-.map-wrapper::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none;
-    background: 
-        linear-gradient(to right, var(--terminal-green) 2px, transparent 2px) 0 0,
-        linear-gradient(to bottom, var(--terminal-green) 2px, transparent 2px) 0 0,
-        linear-gradient(to left, var(--terminal-green) 2px, transparent 2px) 100% 100%,
-        linear-gradient(to top, var(--terminal-green) 2px, transparent 2px) 100% 100%;
-    background-size: 10px 10px; /* 四隅だけＬ字を描く */
-    background-repeat: no-repeat;
-    z-index: 10;
+/* --- 修正：どんなサイズでも枠に収める設定 --- */
+
+/* マップ表示エリア（モニター枠） */
+.map-wrapper {
+    position: relative;
+    border: 2px solid var(--terminal-green);
+    background: #000;
+    overflow: hidden;
+    /* 枠のサイズを固定、または最大値を設定 */
+    width: 100%;
+    height: 400px; /* ここでお好みの「モニターの高さ」を固定します */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
 }
 
-/* マップ画像（常時スキャンライン） */
-/* --- 修正：マップ画像のエフェクト解除（視認性優先） --- */
-
+/* マップ画像本体 */
 .map-image {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto;
-    /* エフェクトをすべてリセット */
+    /* 枠の中で最大化しつつ、比率を維持して収める（重要！） */
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* これで画像が歪まず、枠内に収まります */
+    
+    /* 前回の修正通りエフェクトは全解除 */
     filter: none !important;
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
-    background: transparent !important;
     opacity: 1 !important;
-    /* 画像の粗さを抑えてクッキリ表示 */
-    image-rendering: auto;
+    display: none; /* JSで制御するため初期は非表示 */
+}
+
+/* アクティブな画像のみ表示 */
+.map-image.active {
+    display: block;
 }
 
 /* 切り替え時の「激しいグリッチノイズ」演出 */
@@ -372,4 +374,5 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
     92% { transform: skewX(10deg); }
     95% { transform: skewX(-10deg); }
 }
+
 
