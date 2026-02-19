@@ -164,4 +164,54 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
 @keyframes final-impact {
     0% { transform: scale(3); opacity: 0; filter: contrast(3); }
     100% { transform: scale(1); opacity: 1; }
+
+}
+
+/* --- 追加：マップセレクターとノイズ演出 --- */
+
+/* ボタンの並び */
+.map-selector {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+/* 監視カメラ風のボタン */
+.map-btn {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--terminal-green);
+    color: var(--terminal-green);
+    font-family: inherit;
+    font-size: 0.7em;
+    padding: 8px 0;
+    cursor: pointer;
+}
+
+.map-btn.active {
+    background: var(--terminal-green);
+    color: var(--bg-dark);
+    font-weight: bold;
+    box-shadow: 0 0 10px var(--neon-glow);
+}
+
+/* 切り替え時の「信号途絶」ノイズ */
+.map-wrapper.switching::after {
+    content: "SIGNAL LOST / RECONNECTING...";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #000;
+    color: var(--terminal-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    z-index: 50;
+    animation: flicker-noise 0.1s infinite;
+}
+
+@keyframes flicker-noise {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
 }
