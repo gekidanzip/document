@@ -290,42 +290,6 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
     z-index: 5;
 }
 
-/* 切り替え時の「激しいグリッチノイズ」演出 */
-.map-wrapper.switching::after {
-    content: "SYSTEM BREACH // RE-CALIBRATING..."; /* 文言変更 */
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: #000;
-    color: var(--warning-red); /* 警告色に変更 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: bold;
-    font-size: 0.9em;
-    z-index: 50;
-    /* 激しいノイズアニメーションを適用 */
-    animation: cyber-glitch 0.1s infinite, rgb-shift 0.2s infinite;
-    text-shadow: 2px 0 var(--terminal-green), -2px 0 blue;
-}
-
-/* 画面全体の激しい明滅と歪み */
-@keyframes cyber-glitch {
-    0% { opacity: 0.8; transform: skewX(0deg); background: #000; }
-    20% { opacity: 1; transform: skewX(-5deg); background: #110; }
-    40% { opacity: 0.7; transform: skewX(5deg); background: #000; clip-path: inset(10% 0 20% 0); }
-    60% { opacity: 1; transform: skewX(-2deg); background: #000; clip-path: inset(0 0 0 0); }
-    80% { opacity: 0.9; transform: skewX(2deg); background: #0a0a0a; }
-    100% { opacity: 0.8; transform: skewX(0deg); background: #000; }
-}
-
-/* RGBの色ズレ演出 */
-@keyframes rgb-shift {
-    0% { text-shadow: 2px 0 var(--terminal-green), -2px 0 blue; }
-    50% { text-shadow: -2px 0 var(--warning-red), 2px 0 var(--terminal-green); }
-    100% { text-shadow: 2px 0 blue, -2px 0 var(--warning-red); }
-}
-
 /* --- 追加：ローディング画面のスタイル --- */
 #loading-screen {
     position: fixed;
@@ -392,6 +356,7 @@ header { border-bottom: 2px solid var(--terminal-green); padding-bottom: 10px; m
     92% { transform: skewX(10deg); }
     95% { transform: skewX(-10deg); }
 }
+
 
 
 
