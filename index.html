@@ -21,8 +21,18 @@
 
         <section id="map-section">
             <h2>01. 棟内マップ</h2>
-            <div class="map-wrapper">
-                <img src="map.jpg" alt="MAP LOADING ERROR" class="map-image">
+            
+            <div class="map-selector">
+                <button class="map-btn active" data-map="map-1fr">AREA: 1F-R</button>
+                <button class="map-btn" data-map="map-1fl">AREA: 1F-L</button>
+                <button class="map-btn" data-map="map-2f">AREA: 2F</button>
+            </div>
+        
+            <div class="map-wrapper" id="map-display">
+                <img src="map_1fr.jpg" id="map-1fr" class="map-image active" alt="1F-RIGHT">
+                <img src="map_1fl.jpg" id="map-1fl" class="map-image" alt="1F-LEFT" style="display:none;">
+                <img src="map_2f.jpg" id="map-2f" class="map-image" alt="2F" style="display:none;">
+                
                 <div class="map-overlay-text">※エリアをタップして資料を特定</div>
             </div>
         </section>
@@ -114,6 +124,7 @@
 </body>
 
 </html>
+
 
 
 
